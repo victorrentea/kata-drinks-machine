@@ -7,76 +7,49 @@ import org.apache.commons.math3.util.Precision;
 import musicbox.GetraenkException.ErrorCode;
 
 public class Getraenkeautomat {
-	private GetraenkeBox getraenkeBox;
-	private Muenzbeutel muenzbeutel;
+	private final GetraenkeBox getraenkeBox;
+	private final Muenzbeutel muenzbeutel;
 
-	public Getraenkeautomat(int maxArtGetranke, int maxGleicheGetraenke, List<Double> preise)
-			throws GetraenkException {
+	public Getraenkeautomat(int maxArtGetranke, int maxGleicheGetraenke, List<Double> preise) {
 		this.getraenkeBox = new GetraenkeBox(maxArtGetranke, maxGleicheGetraenke);
 		this.muenzbeutel = new Muenzbeutel();
 	}
 
 	public void befuellen(List<Getraenk> getraenke, List<Muenze> muenzen) {
-		this.getraenkeBox.befuellen(getraenke);
-		this.muenzbeutel.befuellen(muenzen);
+		getraenkeBox.befuellen(getraenke);
+		muenzbeutel.befuellen(muenzen);
 	}
 
 	public void entleeren() {
-		this.getraenkeBox.entleeren();
-		this.muenzbeutel.entleeren();
+		getraenkeBox.entleeren();
+		muenzbeutel.entleeren();
 	}
+	
+	// buyer first enters the coins in the machine
+	// then selects the product he wants
 
-	public GetraenkUndWechselgeld kaufen(String auswahl, List<Muenze> muenzen)
-			 {
+	public GetraenkUndWechselgeld kaufen(String auswahl, List<Muenze> buyerMuenzen) {
 		try {
-			muenzbeutel.befuellen(muenzen);
-			Double getraenkPreis = getraenkeBox.getPreis(auswahl);
+			muenzbeutel.befuellen(buyerMuenzen);
+			Double getraenkPreis = getraenkeBox.getPreisByAuswahl(auswahl);
 			
-			getraenkeBox.checkAuswahl(auswahl);
-			
-			List<Muenze> wechselgeld = getWechselgeld(muenzen, getraenkPreis);
-			Getraenk getraenk = getraenkeBox.getGetraenk(auswahl);
+			// compute the change
+			List<Muenze> wechselgeld = muenzbeutel.getWechselgeld(buyerMuenzen, getraenkPreis);
+			Getraenk getraenk = getraenkeBox.takeGetraenk(auswahl);
 			return new GetraenkUndWechselgeld(getraenk, wechselgeld);
-
 		} catch (GetraenkException e) {
 			System.out.println(e.getMessage());
-			muenzbeutel.getWechselgeld(vonMuenzeZuGeld(muenzen));
-			throw e;
+			List<Muenze> coins = muenzbeutel.getWechselgeld(buyerMuenzen);
+			return new GetraenkUndWechselgeld(null, coins);
 		} 
-
-	}
-
-	private List<Muenze> getWechselgeld(List<Muenze> muenzen, Double getraenkPreis)
-			 {
-		Double eingegebenePreis = vonMuenzeZuGeld(muenzen);
-		if (eingegebenePreis < getraenkPreis) {
-			throw new GetraenkException(ErrorCode.NICHT_GENUG_GELD, "Nicht genug Geld");
-		}
-		return getMuenzbeutel().getWechselgeld(Precision.round(eingegebenePreis - getraenkPreis, 2));
-	}
-
-	private Double vonMuenzeZuGeld(List<Muenze> muenzen) {
-		Double zurueck = new Double(0);
-		for (Muenze muenze : muenzen) {
-			zurueck += muenze.getWert();
-		}
-		return Precision.round(zurueck, 2);
 	}
 
 	public GetraenkeBox getGetraenkeBox() {
 		return getraenkeBox;
 	}
 
-	public void setGetraenkeBox(GetraenkeBox getraenkeBox) {
-		this.getraenkeBox = getraenkeBox;
-	}
-
 	public Muenzbeutel getMuenzbeutel() {
 		return muenzbeutel;
-	}
-
-	public void setMuenzbeutel(Muenzbeutel muenzbeutel) {
-		this.muenzbeutel = muenzbeutel;
 	}
 
 }

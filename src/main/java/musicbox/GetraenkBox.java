@@ -45,14 +45,16 @@ public class GetraenkBox {
 		}
 		currentGetraenkeCount ++;
 	}
-	public void removeOne() {
+	public Getraenk removeOne() {
 		if (isEmpty()) {
 			throw new IllegalStateException();
 		}
 		currentGetraenkeCount --;
+		Getraenk result = getraenk;
 		if (currentGetraenkeCount == 0) {
 			getraenk = null;
 		}
+		return result;
 	}
 
 

@@ -20,7 +20,7 @@ public class GetraenkeBox {
 
 	public void befuellen(List<Getraenk> getraenke) {
 		for (Getraenk drink : getraenke) {
-			addOneDrink(drink);
+			addOneGetraenk(drink);
 		}
 	}
 
@@ -30,8 +30,7 @@ public class GetraenkeBox {
 	 * 2) if there is no box with that drink OR all the little boxes with that drink are FULL 
 	 * 		==> fill an empty little box ; if there is no additional empty little box ==> THROW 
 	 */
-	
-	private void addOneDrink(Getraenk getraenk) {
+	private void addOneGetraenk(Getraenk getraenk) {
 		Optional<GetraenkBox> boxOpt = findNotFullBoxForThisGetraenk(getraenk);
 		if (boxOpt.isPresent()) {
 			boxOpt.get().addOne();
@@ -70,7 +69,7 @@ public class GetraenkeBox {
 		}
 	}
 
-	public Double getPreis(String auswahl) {
+	public Double getPreisByAuswahl(String auswahl) {
 		return getBoxByAuswahl(auswahl).getPrice();
 	} 
 	
@@ -83,14 +82,7 @@ public class GetraenkeBox {
 		throw new GetraenkException(ErrorCode.NICHT_GEFUNDEN_AUSWAHL,"Auswahl nicht gültig");
 	}
 
-	public void checkAuswahl(String auswahl) { 
-		getBoxByAuswahl(auswahl);
-	}
-
-	public Getraenk getGetraenk(String auswahl) {
-		GetraenkBox getraenkBox = getBoxByAuswahl(auswahl);
-		Getraenk zuruck = getraenkBox.getGetraenke().get(0);
-		getraenkBox.getGetraenke().remove(0);
-		return zuruck;
+	public Getraenk takeGetraenk(String auswahl) {
+		return getBoxByAuswahl(auswahl).removeOne();
 	}
 }
