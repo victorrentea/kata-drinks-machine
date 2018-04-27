@@ -12,7 +12,7 @@ public class Getraenkeautomat {
 
 	public Getraenkeautomat(int maxArtGetranke, int maxGleicheGetraenke, List<Double> preise)
 			throws GetraenkException {
-		this.getraenkeBox = new GetraenkeBox(maxArtGetranke, maxGleicheGetraenke, preise);
+		this.getraenkeBox = new GetraenkeBox(maxArtGetranke, maxGleicheGetraenke);
 		this.muenzbeutel = new Muenzbeutel();
 	}
 

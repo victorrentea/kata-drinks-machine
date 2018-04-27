@@ -49,7 +49,7 @@ public class GetraenkeBoxTest {
 			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 3;
-		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);
+		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet);
 		getraenkeBox.befuellen(this.getraenkeListColas);
 
 		Object[] maschinegetraenke = getraenkeBox.getGetraenke().toArray();
@@ -64,7 +64,7 @@ public class GetraenkeBoxTest {
 			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 2;
 		this.getraenkBoxKapazitaet = 2;
-		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);
+		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet);
 		getraenkeBox.befuellen(this.getraenkeListColas);
 		getraenkeBox.befuellen(this.getraenkeListMezzoMix);
 		// Nur Platz für 2 Colas
@@ -79,7 +79,7 @@ public class GetraenkeBoxTest {
 			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 2;
-		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);
+		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet);
 		getraenkeBox.befuellen(this.getraenkeListColas);
 		getraenkeBox.befuellen(this.getraenkeListMezzoMix);
 		List<Getraenk> expected = new ArrayList<Getraenk>();

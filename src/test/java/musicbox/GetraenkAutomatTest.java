@@ -1,23 +1,20 @@
 package musicbox;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import musicbox.Getraenk;
-import musicbox.GetraenkBox;
-import musicbox.GetraenkUndWechselgeld;
-import musicbox.Getraenkeautomat;
-import musicbox.GetraenkException;
 import musicbox.KeinKapazitaetMehrException;
 import musicbox.KeinWechselgeldException;
-import musicbox.Muenze;
 import musicbox.NichtGefundenAuswahlException;
 import musicbox.NichtGueltigGetraenkException;
 
@@ -35,47 +32,52 @@ public class GetraenkAutomatTest {
 		Muenze m1 = Muenze.M10;
 		Muenze m3 = Muenze.M20;
 		Muenze m4 = Muenze.M50;
-		this.muenzen = new ArrayList<Muenze>();
+		muenzen = new ArrayList<Muenze>();
 		muenzen.add(m1);
 		muenzen.add(m3);
 		muenzen.add(m4);
 
-		this.getraenkeCola = new Getraenk("Cola", 0.5);
-		this.getraenkeMezzoMix = new Getraenk("MezzoMix", 0.5);
-		this.getraenkeCola2 = new Getraenk("Cola", 0.5);
-		this.getraenkeCola3 = new Getraenk("Cola", 0.5);
-		this.getraenkeColaZero = new Getraenk("Cola-Zero", 0.5);
+		getraenkeCola = new Getraenk("Cola", 0.5);
+		getraenkeMezzoMix = new Getraenk("MezzoMix", 0.5);
+		getraenkeCola2 = new Getraenk("Cola", 0.5);
+		getraenkeCola3 = new Getraenk("Cola", 0.5);
+		getraenkeColaZero = new Getraenk("Cola-Zero", 0.5);
 
-		this.getraenkeListMezzoMix = new ArrayList<Getraenk>();
-		this.getraenkeListMezzoMix.add(this.getraenkeMezzoMix);
+		getraenkeListMezzoMix = new ArrayList<Getraenk>();
+		getraenkeListMezzoMix.add(getraenkeMezzoMix);
 
-		this.getraenkeListColas = new ArrayList<Getraenk>();
-		this.getraenkeListColas.add(this.getraenkeCola);
-		this.getraenkeListColas.add(this.getraenkeCola2);
+		getraenkeListColas = new ArrayList<Getraenk>();
+		getraenkeListColas.add(getraenkeCola);
+		getraenkeListColas.add(getraenkeCola2);
 
-		this.getraenkeListAll = new ArrayList<Getraenk>();
-		this.getraenkeListAll.addAll(getraenkeListColas);
-		this.getraenkeListAll.addAll(getraenkeListMezzoMix);
+		getraenkeListAll = new ArrayList<Getraenk>();
+		getraenkeListAll.addAll(getraenkeListColas);
+		getraenkeListAll.addAll(getraenkeListMezzoMix);
 
-		this.preise = Arrays.asList(new Double(1.2), new Double(1.5), new Double(0.9));
+		preise = Arrays.asList(new Double(1.2), new Double(1.5), new Double(0.9));
 	}
 
 	@Test
 	public void befuellen()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
-		this.getraenkBoxes = 3;
-		this.getraenkBoxKapazitaet = 3;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
+			{
+		getraenkBoxes = 3;
+		getraenkBoxKapazitaet = 3;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListAll, muenzen);
 
+		
+		
 		Object[] maschinegetraenke = getraenkeautomat.getGetraenkeBox().getGetraenke().toArray();
-		Object[] initialGetraenke = this.getraenkeListAll.toArray();
+		Object[] initialGetraenke = getraenkeListAll.toArray();
 		Arrays.sort(maschinegetraenke);
 		Arrays.sort(initialGetraenke);
 		assertArrayEquals(maschinegetraenke, initialGetraenke);
+		
+		
+		
 		Object[] maschineMuenzen = getraenkeautomat.getMuenzbeutel().getMuenzen().toArray();
-		Object[] initialMuenzen = this.muenzen.toArray();
+		Object[] initialMuenzen = muenzen.toArray();
 		Arrays.sort(maschineMuenzen);
 		Arrays.sort(initialMuenzen);
 		assertArrayEquals(initialMuenzen, maschineMuenzen);
@@ -84,22 +86,22 @@ public class GetraenkAutomatTest {
 	@Test(expected = KeinKapazitaetMehrException.class)
 	public void befuellenKeinPlatz()
 			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
-		this.getraenkBoxes = 1;
-		this.getraenkBoxKapazitaet = 1;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListColas, this.muenzen);
+		getraenkBoxes = 1;
+		getraenkBoxKapazitaet = 1;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListColas, muenzen);
 
 	}
 
 	@Test
 	public void entleeren()
 			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
-		this.getraenkBoxes = 3;
-		this.getraenkBoxKapazitaet = 3;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListColas, this.muenzen);
+		getraenkBoxes = 3;
+		getraenkBoxKapazitaet = 3;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListColas, muenzen);
 
 		List<Getraenk> expected = new ArrayList<Getraenk>();
 
@@ -111,11 +113,11 @@ public class GetraenkAutomatTest {
 
 	@Test
 	public void kaufen() throws Exception {
-		this.getraenkBoxes = 3;
-		this.getraenkBoxKapazitaet = 3;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
+		getraenkBoxes = 3;
+		getraenkBoxKapazitaet = 3;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListAll, muenzen);
 
 		Muenze m01 = Muenze.M10;
 		Muenze m02 = Muenze.M20;
@@ -129,7 +131,7 @@ public class GetraenkAutomatTest {
 		zurueck.add(m02);
 		zurueck.add(m01);
 
-		GetraenkUndWechselgeld expected = new GetraenkUndWechselgeld(this.getraenkeCola, zurueck);
+		GetraenkUndWechselgeld expected = new GetraenkUndWechselgeld(getraenkeCola, zurueck);
 
 		GetraenkUndWechselgeld actual = getraenkeautomat.kaufen("0", meinemuenzen);
 		assertEquals(expected, actual);
@@ -138,11 +140,11 @@ public class GetraenkAutomatTest {
 
 	@Test(expected = NichtGefundenAuswahlException.class)
 	public void kaufenFalscheAuswahl() throws Exception {
-		this.getraenkBoxes = 3;
-		this.getraenkBoxKapazitaet = 3;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
+		getraenkBoxes = 3;
+		getraenkBoxKapazitaet = 3;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListAll, muenzen);
 
 		Muenze m05 = Muenze.M50;
 		Muenze m10 = Muenze.M100;
@@ -156,11 +158,11 @@ public class GetraenkAutomatTest {
 
 	@Test(expected = KeinWechselgeldException.class)
 	public void kaufenKeinWechselGeld() throws Exception {
-		this.getraenkBoxes = 3;
-		this.getraenkBoxKapazitaet = 3;
-		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
-				this.preise);
-		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
+		getraenkBoxes = 3;
+		getraenkBoxKapazitaet = 3;
+		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(getraenkBoxes, getraenkBoxKapazitaet,
+				preise);
+		getraenkeautomat.befuellen(getraenkeListAll, muenzen);
 
 		Muenze m20 = Muenze.M200;
 		List<Muenze> meinemuenzen = new ArrayList<Muenze>();

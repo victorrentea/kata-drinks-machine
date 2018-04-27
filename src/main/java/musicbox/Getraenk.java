@@ -1,35 +1,17 @@
 package musicbox;
 
-public class Getraenk implements Comparable<Getraenk> {
+// Value Object - immutable, hashcode/equals.
+public class Getraenk {
 	private final String name;
 	private final double liter;
-
-	public Getraenk(String name, double menge) {
+	private final Double preis;
+	
+	public Getraenk(String name, double liter, Double preis) {
 		this.name = name;
-		this.liter = menge;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double getLiter() {
-		return liter;
-	}
-
-	public void setLiter(double liter) {
 		this.liter = liter;
+		this.preis = preis;
 	}
-
-	public String toString() {
-		return this.name;
-	}
-
-	@Override
+	
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -37,10 +19,10 @@ public class Getraenk implements Comparable<Getraenk> {
 		temp = Double.doubleToLongBits(liter);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((preis == null) ? 0 : preis.hashCode());
 		return result;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -56,12 +38,24 @@ public class Getraenk implements Comparable<Getraenk> {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (preis == null) {
+			if (other.preis != null)
+				return false;
+		} else if (!preis.equals(other.preis))
+			return false;
 		return true;
 	}
 
-	@Override
-	public int compareTo(Getraenk getraenk) {
-		return this.getName().compareTo(getraenk.getName());
+	public String getName() {
+		return name;
 	}
+	public double getLiter() {
+		return liter;
+	}
+	public Double getPreis() {
+		return preis;
+	}
+
+
 
 }

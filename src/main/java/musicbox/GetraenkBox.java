@@ -4,95 +4,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 import musicbox.GetraenkException.ErrorCode;
-
+// it is the responsibility of this class to ensure the following invariant is always TRUE:
+// - currentCount <= maxGetRaenke
+// - an EMPTY box has null getraenke
 public class GetraenkBox {
-	private String code;
-	private int maxGetraenke;
-	private Double preis;
-	private List<Getraenk> getraenke;
+	private final String code; //that you enter in the keypad
+	private final int maxGetraenke; // max count
+	
+	private int currentGetraenkeCount = 0; 
+ 	private Getraenk getraenk; // the drink that the customer gets in hand
 
-	public GetraenkBox(String code, int maxGetraenke, Double preis) {
-		this.code = code;
-		this.maxGetraenke = maxGetraenke;
-		this.preis = preis;
-		this.getraenke = new ArrayList<Getraenk>();
+	// distinction between what CHANGES and what NOT.
+
+ 	public GetraenkBox(String code, int maxGetraenke) {
+ 		this.code = code;
+ 		this.maxGetraenke = maxGetraenke;
+ 	}
+ 	
+ 	public boolean isFull() {
+ 		return currentGetraenkeCount < maxGetraenke;
+ 	}
+ 	
+ 	public boolean isEmpty() {
+ 		return currentGetraenkeCount == 0;
+ 	}
+
+ 	public void entleeren() {
+		currentGetraenkeCount = 0;
+		getraenk = null;
 	}
-
-	public void befuellen(List<Getraenk> getraenke) throws GetraenkException {
-		if (this.checkFreiePlaetzeForGetraenke(getraenke)) {
-			for (Getraenk getraenk : getraenke) {
-				this.addGetraenk(getraenk);
-			}
-		} else {
+	
+	public void addFirst(Getraenk getraenk) {
+		this.getraenk = getraenk;
+		currentGetraenkeCount = 1;
+	}
+	
+	public void addOne() {
+		if (1 + currentGetraenkeCount >= maxGetraenke) {
 			throw new GetraenkException(ErrorCode.KEIN_KAPAZITAET_MEHR,"Es gibt kein Platz für so viele Getränke");
 		}
+		currentGetraenkeCount ++;
 	}
-
-	private void addGetraenk(Getraenk getraenk) {
-		if (this.getraenke.isEmpty() || (!this.getraenke.isEmpty() && this.getraenke.get(0).equals(getraenk))) {
-			this.getraenke.add(getraenk);
-		} else {
-			throw new GetraenkException(ErrorCode.NICHT_GUELTIG_GETRAENK, "Getränksart nicht Gültig");
+	public void removeOne() {
+		if (isEmpty()) {
+			throw new IllegalStateException();
+		}
+		currentGetraenkeCount --;
+		if (currentGetraenkeCount == 0) {
+			getraenk = null;
 		}
 	}
 
-	public boolean checkFreiePlaetzeForGetraenke(List<Getraenk> getraenke) {
-		int freiPlaetze = this.maxGetraenke - this.getraenke.size();
-		if (getraenke.size() > freiPlaetze) {
-			return false;
-		}
-		return true;
-	}
 
-	public boolean gibtEsFreiePlaetze() {
-		if (getraenke.size() >= this.maxGetraenke) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean esIstGueltigGetraenkArt(Getraenk getraenk) {
-		if (this.getraenke.isEmpty()) {
-			return true;
-		} else if (!this.getraenke.isEmpty() && this.getraenke.get(0).equals(getraenk)) {
-			return true;
-		}
-		return false;
-	}
-
-	public void entleeren() {
-		this.getraenke.clear();
-	}
-
-	public int getMaxGetraenke() {
-		return maxGetraenke;
-	}
-
-	public void setMaxGetraenke(int maxGetraenke) {
-		this.maxGetraenke = maxGetraenke;
-	}
-
-	public List<Getraenk> getGetraenke() {
-		return getraenke;
-	}
-
-	public void setGetraenke(List<Getraenk> getraenke) {
-		this.getraenke = getraenke;
+	public Getraenk getGetraenk() {
+		return getraenk;
 	}
 
 	public String getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public List<Getraenk> getGetraenke() {
+		List<Getraenk> list = new ArrayList<>();
+		for (int i = 0; i < currentGetraenkeCount; i++) {
+			list.add(getraenk);
+		}
+		return list; 
 	}
 
-	public Double getPreis() {
-		return preis;
-	}
-
-	public void setPreis(Double preis) {
-		this.preis = preis;
+	public Double getPrice() {
+		if (isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		return getraenk.getPreis(); 
 	}
 }

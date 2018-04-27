@@ -4,7 +4,6 @@ package musicbox;
 public class GetraenkException extends RuntimeException {
 	
 	public enum ErrorCode {
-		INCORRECT_PROVIDED_PARAMETER,
 		KEIN_KAPAZITAET_MEHR,
 		KEIN_WECHSELGELD,
 		NICHT_GEFUNDEN_AUSWAHL,
