@@ -3,11 +3,8 @@ package musicbox;
 import java.util.List;
 
 public class GetraenkUndWechselgeld {
-	private Getraenk getraenk;
-	private List<Muenze> muenzen;
-
-	public GetraenkUndWechselgeld() {
-	}
+	private final Getraenk getraenk;
+	private final List<Muenze> muenzen;
 
 	public GetraenkUndWechselgeld(Getraenk getraenk, List<Muenze> muenzen) {
 		this.getraenk = getraenk;
@@ -18,16 +15,9 @@ public class GetraenkUndWechselgeld {
 		return getraenk;
 	}
 
-	public void setGetraenk(Getraenk getraenk) {
-		this.getraenk = getraenk;
-	}
 
 	public List<Muenze> getMuenzen() {
 		return muenzen;
-	}
-
-	public void setMuenzen(List<Muenze> muenzen) {
-		this.muenzen = muenzen;
 	}
 
 	@Override

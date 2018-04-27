@@ -55,7 +55,7 @@ public class GetraenkeBox {
 				.findFirst();
 	}
 	
-	public List<Getraenk> getGetraenke() {
+	List<Getraenk> getGetraenke() {
 		List<Getraenk> getraenke = new ArrayList<Getraenk>();
 		for (GetraenkBox getraenkBox : getraenkeBoxes) {
 			getraenke.addAll(getraenkBox.getGetraenke());
@@ -71,10 +71,10 @@ public class GetraenkeBox {
 	}
 
 	public Double getPreis(String auswahl) {
-		return getBoxByCode(auswahl).getPrice();
+		return getBoxByAuswahl(auswahl).getPrice();
 	} 
 	
-	public GetraenkBox getBoxByCode(String auswahl) { 
+	private GetraenkBox getBoxByAuswahl(String auswahl) { 
 		for (GetraenkBox getraenkBox : getraenkeBoxes) {
 			if (auswahl.equals(getraenkBox.getCode())) {
 				return getraenkBox;
@@ -83,23 +83,14 @@ public class GetraenkeBox {
 		throw new GetraenkException(ErrorCode.NICHT_GEFUNDEN_AUSWAHL,"Auswahl nicht gültig");
 	}
 
-	public void checkGetraenk(String auswahl) { // auswahl ===code
-		for (GetraenkBox getraenkBox : getraenkeBoxes) {
-			if (auswahl.equals(getraenkBox.getCode())) {
-				return;
-			}
-		}
-		throw new GetraenkException(ErrorCode.NICHT_GEFUNDEN_AUSWAHL,"Auswahl nicht gültig");
+	public void checkAuswahl(String auswahl) { 
+		getBoxByAuswahl(auswahl);
 	}
 
 	public Getraenk getGetraenk(String auswahl) {
-		for (GetraenkBox getraenkBox : getraenkeBoxes) {
-			if (auswahl.equals(getraenkBox.getCode())) {
-				Getraenk zuruck = getraenkBox.getGetraenke().get(0);
-				getraenkBox.getGetraenke().remove(0);
-				return zuruck;
-			}
-		}
-		throw new GetraenkException(ErrorCode.NICHT_GEFUNDEN_AUSWAHL,"Auswahl nicht gültig");
+		GetraenkBox getraenkBox = getBoxByAuswahl(auswahl);
+		Getraenk zuruck = getraenkBox.getGetraenke().get(0);
+		getraenkBox.getGetraenke().remove(0);
+		return zuruck;
 	}
 }

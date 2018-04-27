@@ -22,7 +22,7 @@ public class GetraenkBox {
  	}
  	
  	public boolean isFull() {
- 		return currentGetraenkeCount < maxGetraenke;
+ 		return currentGetraenkeCount == maxGetraenke;
  	}
  	
  	public boolean isEmpty() {
@@ -40,7 +40,7 @@ public class GetraenkBox {
 	}
 	
 	public void addOne() {
-		if (1 + currentGetraenkeCount >= maxGetraenke) {
+		if (isFull()) {
 			throw new GetraenkException(ErrorCode.KEIN_KAPAZITAET_MEHR,"Es gibt kein Platz für so viele Getränke");
 		}
 		currentGetraenkeCount ++;
