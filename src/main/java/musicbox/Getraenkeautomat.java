@@ -6,6 +6,8 @@ import org.apache.commons.math3.util.Precision;
 
 import musicbox.GetraenkException.ErrorCode;
 
+
+// TODO mandatory to unit test using mocks
 public class Getraenkeautomat {
 	private final GetraenkeBox getraenkeBox;
 	private final Muenzbeutel muenzbeutel;

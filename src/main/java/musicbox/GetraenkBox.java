@@ -35,6 +35,9 @@ public class GetraenkBox {
 	}
 	
 	public void addFirst(Getraenk getraenk) {
+		if (!isEmpty()) {
+			throw new GetraenkException(ErrorCode.KEIN_KAPAZITAET_MEHR,"Some ex");
+		}
 		this.getraenk = getraenk;
 		currentGetraenkeCount = 1;
 	}

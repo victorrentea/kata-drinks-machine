@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import musicbox.GetraenkException.ErrorCode;
 
 public class GetraenkeBox {
-	private final List<GetraenkBox> getraenkeBoxes = new ArrayList<GetraenkBox>();
+	final List<GetraenkBox> getraenkeBoxes = new ArrayList<GetraenkBox>();
 
 	public GetraenkeBox(int littleBoxCount, int maxGleicheGetraenke){
 		for (int i = 0; i < littleBoxCount; i++) {

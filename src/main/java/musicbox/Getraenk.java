@@ -1,8 +1,9 @@
 package musicbox;
 
+//Stupid Value Object that does NOOOOOT need to be tested.
 // Value Object - immutable, hashcode/equals.
 public class Getraenk {
-	private final String name;
+	private final String name; // TODO? join the name + liter in a single String name
 	private final double liter;
 	private final Double preis;
 	

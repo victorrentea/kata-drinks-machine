@@ -2,6 +2,7 @@ package musicbox;
 
 import java.util.List;
 
+// Stupid Value Object that does NOOOOOT need to be tested.
 public class GetraenkUndWechselgeld {
 	private final Getraenk getraenk;
 	private final List<Muenze> muenzen;
