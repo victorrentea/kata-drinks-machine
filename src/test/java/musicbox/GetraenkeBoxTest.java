@@ -1,4 +1,4 @@
-package test.java;
+package musicbox;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,12 +10,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.Getraenk;
-import main.java.GetraenkBox;
-import main.java.GetraenkeBox;
-import main.java.IncorrectProvidedParameterException;
-import main.java.KeinKapazitaetMehrException;
-import main.java.NichtGueltigGetraenkException;
+import musicbox.Getraenk;
+import musicbox.GetraenkBox;
+import musicbox.GetraenkeBox;
+import musicbox.GetraenkException;
+import musicbox.KeinKapazitaetMehrException;
+import musicbox.NichtGueltigGetraenkException;
 
 public class GetraenkeBoxTest {
 
@@ -46,7 +46,7 @@ public class GetraenkeBoxTest {
 
 	@Test
 	public void befuellen()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 3;
 		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);
@@ -61,7 +61,7 @@ public class GetraenkeBoxTest {
 
 	@Test(expected = KeinKapazitaetMehrException.class)
 	public void befuellenErrorKeinPlatz()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 2;
 		this.getraenkBoxKapazitaet = 2;
 		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);
@@ -76,7 +76,7 @@ public class GetraenkeBoxTest {
 
 	@Test
 	public void entleeren()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 2;
 		GetraenkeBox getraenkeBox = new GetraenkeBox(this.getraenkBoxes, this.getraenkBoxKapazitaet, this.preise);

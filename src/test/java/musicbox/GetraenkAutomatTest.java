@@ -1,4 +1,4 @@
-package test.java;
+package musicbox;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -10,16 +10,16 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.Getraenk;
-import main.java.GetraenkBox;
-import main.java.GetraenkUndWechselgeld;
-import main.java.Getraenkeautomat;
-import main.java.IncorrectProvidedParameterException;
-import main.java.KeinKapazitaetMehrException;
-import main.java.KeinWechselgeldException;
-import main.java.Muenze;
-import main.java.NichtGefundenAuswahlException;
-import main.java.NichtGueltigGetraenkException;
+import musicbox.Getraenk;
+import musicbox.GetraenkBox;
+import musicbox.GetraenkUndWechselgeld;
+import musicbox.Getraenkeautomat;
+import musicbox.GetraenkException;
+import musicbox.KeinKapazitaetMehrException;
+import musicbox.KeinWechselgeldException;
+import musicbox.Muenze;
+import musicbox.NichtGefundenAuswahlException;
+import musicbox.NichtGueltigGetraenkException;
 
 public class GetraenkAutomatTest {
 	List<Muenze> muenzen;
@@ -32,9 +32,9 @@ public class GetraenkAutomatTest {
 
 	@Before
 	public void before() {
-		Muenze m1 = Muenze.M01;
-		Muenze m3 = Muenze.M02;
-		Muenze m4 = Muenze.M05;
+		Muenze m1 = Muenze.M10;
+		Muenze m3 = Muenze.M20;
+		Muenze m4 = Muenze.M50;
 		this.muenzen = new ArrayList<Muenze>();
 		muenzen.add(m1);
 		muenzen.add(m3);
@@ -62,7 +62,7 @@ public class GetraenkAutomatTest {
 
 	@Test
 	public void befuellen()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 3;
 		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
@@ -83,7 +83,7 @@ public class GetraenkAutomatTest {
 
 	@Test(expected = KeinKapazitaetMehrException.class)
 	public void befuellenKeinPlatz()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 1;
 		this.getraenkBoxKapazitaet = 1;
 		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
@@ -94,7 +94,7 @@ public class GetraenkAutomatTest {
 
 	@Test
 	public void entleeren()
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, IncorrectProvidedParameterException {
+			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException, GetraenkException {
 		this.getraenkBoxes = 3;
 		this.getraenkBoxKapazitaet = 3;
 		Getraenkeautomat getraenkeautomat = new Getraenkeautomat(this.getraenkBoxes, this.getraenkBoxKapazitaet,
@@ -117,10 +117,10 @@ public class GetraenkAutomatTest {
 				this.preise);
 		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
 
-		Muenze m01 = Muenze.M01;
-		Muenze m02 = Muenze.M02;
-		Muenze m05 = Muenze.M05;
-		Muenze m10 = Muenze.M10;
+		Muenze m01 = Muenze.M10;
+		Muenze m02 = Muenze.M20;
+		Muenze m05 = Muenze.M50;
+		Muenze m10 = Muenze.M100;
 		List<Muenze> meinemuenzen = new ArrayList<Muenze>();
 		meinemuenzen.add(m10);
 		meinemuenzen.add(m05);
@@ -144,8 +144,8 @@ public class GetraenkAutomatTest {
 				this.preise);
 		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
 
-		Muenze m05 = Muenze.M05;
-		Muenze m10 = Muenze.M10;
+		Muenze m05 = Muenze.M50;
+		Muenze m10 = Muenze.M100;
 		List<Muenze> meinemuenzen = new ArrayList<Muenze>();
 		meinemuenzen.add(m10);
 		meinemuenzen.add(m05);
@@ -162,7 +162,7 @@ public class GetraenkAutomatTest {
 				this.preise);
 		getraenkeautomat.befuellen(this.getraenkeListAll, this.muenzen);
 
-		Muenze m20 = Muenze.M20;
+		Muenze m20 = Muenze.M200;
 		List<Muenze> meinemuenzen = new ArrayList<Muenze>();
 		meinemuenzen.add(m20);
 

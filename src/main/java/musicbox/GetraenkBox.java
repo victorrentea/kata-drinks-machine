@@ -1,7 +1,9 @@
-package main.java;
+package musicbox;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import musicbox.GetraenkException.ErrorCode;
 
 public class GetraenkBox {
 	private String code;
@@ -16,21 +18,21 @@ public class GetraenkBox {
 		this.getraenke = new ArrayList<Getraenk>();
 	}
 
-	public void befuellen(List<Getraenk> getraenke) throws NichtGueltigGetraenkException, KeinKapazitaetMehrException {
+	public void befuellen(List<Getraenk> getraenke) throws GetraenkException {
 		if (this.checkFreiePlaetzeForGetraenke(getraenke)) {
 			for (Getraenk getraenk : getraenke) {
 				this.addGetraenk(getraenk);
 			}
 		} else {
-			throw new KeinKapazitaetMehrException("Es gibt kein Platz für so viele Getränke");
+			throw new GetraenkException(ErrorCode.KEIN_KAPAZITAET_MEHR,"Es gibt kein Platz für so viele Getränke");
 		}
 	}
 
-	private void addGetraenk(Getraenk getraenk) throws NichtGueltigGetraenkException {
+	private void addGetraenk(Getraenk getraenk) {
 		if (this.getraenke.isEmpty() || (!this.getraenke.isEmpty() && this.getraenke.get(0).equals(getraenk))) {
 			this.getraenke.add(getraenk);
 		} else {
-			throw new NichtGueltigGetraenkException("Getränksart nicht Gültig");
+			throw new GetraenkException(ErrorCode.NICHT_GUELTIG_GETRAENK, "Getränksart nicht Gültig");
 		}
 	}
 

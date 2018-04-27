@@ -1,11 +1,11 @@
-package main.java;
+package musicbox;
 
 public enum Muenze {
-	M20(2.0), M10(1.0), M05(0.50), M02(0.20), M01(0.10);
+	M200(2.0), M100(1.0), M50(0.50), M20(0.20), M10(0.10);
 
 	private Double wert;
 
-	Muenze(Double wert) {
+	private Muenze(Double wert) {
 		this.wert = wert;
 	}
 

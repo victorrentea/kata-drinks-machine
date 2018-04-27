@@ -1,4 +1,4 @@
-package test.java;
+package musicbox;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,8 +10,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.Muenzbeutel;
-import main.java.Muenze;
+import musicbox.Muenzbeutel;
+import musicbox.Muenze;
 
 public class MuenzBeutelTest {
 
@@ -20,11 +20,11 @@ public class MuenzBeutelTest {
 
 	@Before
 	public void before() {
-		Muenze m1 = Muenze.M01;
-		Muenze m2 = Muenze.M01;
-		Muenze m3 = Muenze.M02;
-		Muenze m4 = Muenze.M05;
-		Muenze m5 = Muenze.M10;
+		Muenze m1 = Muenze.M10;
+		Muenze m2 = Muenze.M10;
+		Muenze m3 = Muenze.M20;
+		Muenze m4 = Muenze.M50;
+		Muenze m5 = Muenze.M100;
 		this.muenzen = new ArrayList<Muenze>();
 		muenzen.add(m5);
 		muenzen.add(m1);
@@ -58,9 +58,9 @@ public class MuenzBeutelTest {
 		// 1.0, 0.5, 0.2, 0.1, 0.1
 		this.muenzbeutel.befuellen(this.muenzen);
 
-		Muenze muenze01 = Muenze.M01;
-		Muenze muenze02 = Muenze.M02;
-		Muenze muenze10 = Muenze.M10;
+		Muenze muenze01 = Muenze.M10;
+		Muenze muenze02 = Muenze.M20;
+		Muenze muenze10 = Muenze.M100;
 
 		List<Muenze> expecteds = new ArrayList<Muenze>();
 		expecteds.add(muenze10);

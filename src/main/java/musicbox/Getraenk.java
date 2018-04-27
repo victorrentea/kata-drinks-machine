@@ -1,8 +1,8 @@
-package main.java;
+package musicbox;
 
 public class Getraenk implements Comparable<Getraenk> {
-	private String name;
-	private double liter;
+	private final String name;
+	private final double liter;
 
 	public Getraenk(String name, double menge) {
 		this.name = name;

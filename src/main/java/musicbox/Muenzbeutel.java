@@ -1,4 +1,4 @@
-package main.java;
+package musicbox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math3.util.Precision;
+
+import musicbox.GetraenkException.ErrorCode;
 
 public class Muenzbeutel {
 	private Map<Double, List<Muenze>> muenzenMap;
@@ -52,7 +54,7 @@ public class Muenzbeutel {
 		this.muenzenMap = muenzen;
 	}
 
-	public List<Muenze> getWechselgeld(Double geld) throws KeinWechselgeldException {
+	public List<Muenze> getWechselgeld(Double geld)  {
 		List<Muenze> zurueck = new ArrayList<Muenze>();
 		Double restlich = Precision.round(geld, 2);
 		for (Map.Entry<Double, List<Muenze>> entry : this.muenzenMap.entrySet()) {
@@ -69,7 +71,7 @@ public class Muenzbeutel {
 			}
 		}
 		if (restlich != 0) {
-			throw new KeinWechselgeldException("Kein Wechselngeld");
+			throw new GetraenkException(ErrorCode.KEIN_WECHSELGELD,"Kein Wechselngeld");
 		}
 		this.removeMuenzen(zurueck);
 		return zurueck;

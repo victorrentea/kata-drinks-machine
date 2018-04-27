@@ -1,4 +1,4 @@
-package test.java;
+package musicbox;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,10 +10,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.Getraenk;
-import main.java.GetraenkBox;
-import main.java.KeinKapazitaetMehrException;
-import main.java.NichtGueltigGetraenkException;
+import musicbox.Getraenk;
+import musicbox.GetraenkBox;
+import musicbox.KeinKapazitaetMehrException;
+import musicbox.NichtGueltigGetraenkException;
 
 public class GetraenkBoxTest {
 

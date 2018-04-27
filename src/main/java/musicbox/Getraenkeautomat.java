@@ -1,21 +1,22 @@
-package main.java;
+package musicbox;
 
 import java.util.List;
 
 import org.apache.commons.math3.util.Precision;
+
+import musicbox.GetraenkException.ErrorCode;
 
 public class Getraenkeautomat {
 	private GetraenkeBox getraenkeBox;
 	private Muenzbeutel muenzbeutel;
 
 	public Getraenkeautomat(int maxArtGetranke, int maxGleicheGetraenke, List<Double> preise)
-			throws IncorrectProvidedParameterException {
+			throws GetraenkException {
 		this.getraenkeBox = new GetraenkeBox(maxArtGetranke, maxGleicheGetraenke, preise);
 		this.muenzbeutel = new Muenzbeutel();
 	}
 
-	public void befuellen(List<Getraenk> getraenke, List<Muenze> muenzen)
-			throws NichtGueltigGetraenkException, KeinKapazitaetMehrException {
+	public void befuellen(List<Getraenk> getraenke, List<Muenze> muenzen) {
 		this.getraenkeBox.befuellen(getraenke);
 		this.muenzbeutel.befuellen(muenzen);
 	}
@@ -26,7 +27,7 @@ public class Getraenkeautomat {
 	}
 
 	public GetraenkUndWechselgeld kaufen(String auswahl, List<Muenze> muenzen)
-			throws KeinWechselgeldException, NichtGefundenAuswahlException, NichtGenugGeldException {
+			 {
 		GetraenkUndWechselgeld getraenkUndWechselgeld = new GetraenkUndWechselgeld();
 		try {
 			this.getMuenzbeutel().befuellen(muenzen);
@@ -38,11 +39,7 @@ public class Getraenkeautomat {
 			getraenkUndWechselgeld.setMuenzen(wechselgeld);
 			return getraenkUndWechselgeld;
 
-		} catch (NichtGefundenAuswahlException e) {
-			System.out.println(e.getMessage());
-			this.getMuenzbeutel().getWechselgeld(this.vonMuenzeZuGeld(muenzen));
-			throw e;
-		} catch (NichtGenugGeldException e) {
+		} catch (GetraenkException e) {
 			System.out.println(e.getMessage());
 			this.getMuenzbeutel().getWechselgeld(this.vonMuenzeZuGeld(muenzen));
 			throw e;
@@ -51,10 +48,10 @@ public class Getraenkeautomat {
 	}
 
 	private List<Muenze> getWechselgeld(List<Muenze> muenzen, Double getraenkPreis)
-			throws NichtGenugGeldException, KeinWechselgeldException {
+			 {
 		Double eingegebenePreis = this.vonMuenzeZuGeld(muenzen);
 		if (eingegebenePreis < getraenkPreis) {
-			throw new NichtGenugGeldException("Nicht genug Geld");
+			throw new GetraenkException(ErrorCode.NICHT_GENUG_GELD, "Nicht genug Geld");
 		}
 		return this.getMuenzbeutel().getWechselgeld(Precision.round(eingegebenePreis - getraenkPreis, 2));
 	}
