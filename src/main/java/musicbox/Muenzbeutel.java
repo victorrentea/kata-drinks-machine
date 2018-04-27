@@ -32,11 +32,6 @@ public class Muenzbeutel {
 		}
 	}
 
-
-	private void addMunzeZumBeutel(Muenze muenze) {
-		befuellen(asList(muenze));
-	}
-
 	public void entleeren() {
 		muenzenMap.clear();
 	}
@@ -53,19 +48,11 @@ public class Muenzbeutel {
 		return muenzen;
 	}
 
-	public List<Muenze> getWechselgeld(List<Muenze> muenzen, Double getraenkPreis) {
-		Double eingegebenePreis = vonMuenzeZuGeld(muenzen);
-		if (eingegebenePreis < getraenkPreis) {
-			throw new GetraenkException(ErrorCode.NICHT_GENUG_GELD, "Nicht genug Geld");
-		}
-		return getWechselgeld(Precision.round(eingegebenePreis - getraenkPreis, 2));
-	}
-	
 	public List<Muenze> getWechselgeld(List<Muenze> muenzen)  {
-		return getWechselgeld(vonMuenzeZuGeld(muenzen));
+		return takeChange(vonMuenzeZuGeld(muenzen));
 	}
 	
-	private List<Muenze> getWechselgeld(Double geld)  {
+	public List<Muenze> takeChange(Double geld)  {
 		Map<Muenze, Long> usedCoins = new HashMap<>();
 		Double remainingToReturn = Precision.round(geld, 2);
 		
@@ -93,8 +80,6 @@ public class Muenzbeutel {
 			muenzenMap2.put(wert.getWert(), new ArrayList<Muenze>());
 		}
 		System.out.println(muenzenMap2);
-		
-		
 	}
 
 	private List<Muenze> removeMuenzen(Map<Muenze, Long> usedCoins) {
@@ -112,7 +97,7 @@ public class Muenzbeutel {
 
 	
 	
-	private Double vonMuenzeZuGeld(List<Muenze> muenzen) { // Coins to money amount
+	public Double vonMuenzeZuGeld(List<Muenze> muenzen) { // Coins to money amount
 		Double zurueck = 0d;
 		for (Muenze muenze : muenzen) {
 			zurueck += muenze.getWert();

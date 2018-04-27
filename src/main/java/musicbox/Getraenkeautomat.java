@@ -33,15 +33,24 @@ public class Getraenkeautomat {
 			muenzbeutel.befuellen(buyerMuenzen);
 			Double getraenkPreis = getraenkeBox.getPreisByAuswahl(auswahl);
 			
-			// compute the change
-			List<Muenze> wechselgeld = muenzbeutel.getWechselgeld(buyerMuenzen, getraenkPreis);
+			Double eingegebenePreis = muenzbeutel.vonMuenzeZuGeld(buyerMuenzen);
+			checkEnoughMoney(getraenkPreis, eingegebenePreis);
+			// EVERY CHECK IS OK:L MUTATION;--- starting changing state to perform the sell
+			
+			List<Muenze> wechselgeld = muenzbeutel.takeChange(Precision.round(eingegebenePreis - getraenkPreis, 2));
 			Getraenk getraenk = getraenkeBox.takeGetraenk(auswahl);
 			return new GetraenkUndWechselgeld(getraenk, wechselgeld);
 		} catch (GetraenkException e) {
 			System.out.println(e.getMessage());
-			List<Muenze> coins = muenzbeutel.getWechselgeld(buyerMuenzen);
-			return new GetraenkUndWechselgeld(null, coins);
+			List<Muenze> allTheBuyerCoins = muenzbeutel.getWechselgeld(buyerMuenzen);
+			return new GetraenkUndWechselgeld(null, allTheBuyerCoins);
 		} 
+	}
+
+	private void checkEnoughMoney(Double getraenkPreis, Double eingegebenePreis) {
+		if (eingegebenePreis < getraenkPreis) {
+			throw new GetraenkException(ErrorCode.NICHT_GENUG_GELD, "Nicht genug Geld");
+		}
 	}
 
 	public GetraenkeBox getGetraenkeBox() {

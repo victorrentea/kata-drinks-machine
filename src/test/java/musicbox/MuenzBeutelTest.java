@@ -68,7 +68,7 @@ public class MuenzBeutelTest {
 		expecteds.add(muenze01);
 
 		Double geld = new Double(1.3);
-		List<Muenze> actuals = this.muenzbeutel.getWechselgeld(geld);
+		List<Muenze> actuals = this.muenzbeutel.takeChange(geld);
 		assertArrayEquals(expecteds.toArray(), actuals.toArray());
 	}
 
@@ -77,7 +77,7 @@ public class MuenzBeutelTest {
 		this.muenzbeutel.befuellen(this.muenzen);
 
 		Double zueruck = new Double(2.0);
-		this.muenzbeutel.getWechselgeld(zueruck);
+		this.muenzbeutel.takeChange(zueruck);
 	}
 
 }
